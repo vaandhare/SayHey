@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "347209333471",
+    "firebase_url": "https://sayhey-chat.firebaseio.com",
+    "project_id": "sayhey-chat",
+    "storage_bucket": "sayhey-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347209333471:android:bfb07fbb46f57946",
+        "android_client_info": {
+          "package_name": "in.indekode.sayhey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347209333471-06kk2pnr432son3f2793ghr1u7o61t35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArMXrocaDCeQfJmxXsExWW3FDam2lKUHQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
