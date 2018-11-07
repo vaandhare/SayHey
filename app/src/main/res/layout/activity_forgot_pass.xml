@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ForgotPassActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/bar_layout"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/forgot_email"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="35dp"
+        android:paddingLeft="20sp"
+        android:hint="Email Id" />
+
+    <Button
+        android:id="@+id/forgot_button"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forgot_email"
+        android:layout_marginTop="25dp"
+        android:background="@color/colorPrimary"
+        android:layout_centerInParent="true"
+        android:textColor="@color/colorWhite"
+        android:text="Reset Password"
+        android:textSize="17sp"/>
+
+</RelativeLayout>
