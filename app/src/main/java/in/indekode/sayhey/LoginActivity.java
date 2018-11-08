@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView forgotpass;
     Button btn_login;
     FirebaseAuth auth;
-    DatabaseReference databaseReference;
+
     ProgressDialog progressDialog;
 
     @Override

@@ -76,15 +76,19 @@ public class RegisterActivity extends AppCompatActivity {
                     HashMap<String, String> hashMap = new HashMap<>();
                     hashMap.put("id", userID);
                     hashMap.put("username", username);
+
                     hashMap.put("imageURL", "default");
-                    hashMap.put("Status", "Offline");
+                    hashMap.put("status", "offline");
 
                     mDatabaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
                                 Toast.makeText(RegisterActivity.this, "Registration Successful !!", Toast.LENGTH_SHORT).show();
-                                sendEmailVerification();
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
                             }
                         }
                     });
@@ -93,23 +97,5 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-    private void sendEmailVerification(){
-        FirebaseUser firebaseUser1 = mAuth.getCurrentUser();
-        if(firebaseUser1 != null){
-            firebaseUser1.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if ( task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this, "Verification link is send to your Email-id", Toast.LENGTH_SHORT).show();
-                        mAuth.signOut();
-                        finish();
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                    }else {
-                        Toast.makeText(RegisterActivity.this, "Failed to send verification Email",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
     }
 }

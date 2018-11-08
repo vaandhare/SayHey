@@ -45,38 +45,37 @@ public class ProfileFragment extends Fragment {
 
     CircleImageView image_profile;
     TextView username;
-
-    DatabaseReference mReference;
-    FirebaseUser mUser;
-
-    StorageReference mStorageReference;
-    private static final int IMAGE_REQUEST =1;
+    DatabaseReference reference;
+    FirebaseUser fuser;
+    StorageReference storageReference;
+    private static final int IMAGE_REQUEST = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         image_profile = view.findViewById(R.id.profile_image);
         username = view.findViewById(R.id.username);
 
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
-        mReference = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
+        storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
-        mStorageReference = FirebaseStorage.getInstance().getReference("Uploads");
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
 
-        mReference.addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 username.setText(user.getUsername());
-                if ( user.getImageURL().equals("default")){
-                    image_profile.setImageResource(R.mipmap.ic_launcher_round);
-                }else {
-                    Glide.with(ProfileFragment.this).load(user.getImageURL()).into(image_profile);
+                if (user.getImageURL().equals("default")){
+                    image_profile.setImageResource(R.mipmap.ic_launcher);
+                } else {
+                    Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
                 }
             }
 
@@ -103,57 +102,58 @@ public class ProfileFragment extends Fragment {
         startActivityForResult(intent, IMAGE_REQUEST);
     }
 
-    private String getFileExtenstion(Uri uri){
+    private String getFileExtension(Uri uri){
         ContentResolver contentResolver = getContext().getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
     private void uploadImage(){
-        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Uploading");
-        progressDialog.show();
+        final ProgressDialog pd = new ProgressDialog(getContext());
+        pd.setMessage("Uploading");
+        pd.show();
 
-        if ( imageUri != null){
-            final StorageReference fileReference = mStorageReference.child(System.currentTimeMillis() + "." + getFileExtenstion(imageUri));
+        if (imageUri != null){
+            final  StorageReference fileReference = storageReference.child(System.currentTimeMillis()
+                    +"."+getFileExtension(imageUri));
 
             uploadTask = fileReference.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if ( !task.isSuccessful()){
-                        throw task.getException();
+                    if (!task.isSuccessful()){
+                        throw  task.getException();
                     }
-                    return fileReference.getDownloadUrl();
+
+                    return  fileReference.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-
                     if (task.isSuccessful()){
                         Uri downloadUri = task.getResult();
                         String mUri = downloadUri.toString();
 
-                        mReference = FirebaseDatabase.getInstance().getReference("Users").child(mUser.getUid());
+                        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
                         HashMap<String, Object> map = new HashMap<>();
-                        map.put("imageURL", mUri);
-                        mReference.updateChildren(map);
+                        map.put("imageURL", ""+mUri);
+                        reference.updateChildren(map);
 
-                        progressDialog.dismiss();
-                    } else{
-                        Toast.makeText(getContext(), "Failed to upload !",Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
+                        pd.dismiss();
+                    } else {
+                        Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), e.getMessage() ,Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
                 }
             });
-        }else{
-            Toast.makeText(getContext(), "No image is selected !",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -161,15 +161,15 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if ( requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data!= null&& data.getData() != null ){
+        if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null){
             imageUri = data.getData();
 
-            if ( uploadTask != null && uploadTask.isInProgress()){
-                Toast.makeText(getContext(), "Upload in progress !",Toast.LENGTH_SHORT).show();
-            }else {
+            if (uploadTask != null && uploadTask.isInProgress()){
+                Toast.makeText(getContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
+            } else {
                 uploadImage();
             }
         }
-
     }
 }

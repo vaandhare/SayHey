@@ -32,4 +32,21 @@
         android:text="Reset Password"
         android:textSize="17sp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="250dp"
+        android:textColor="#000"
+        android:textStyle="italic"
+        android:text="By clicking RESET"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="268dp"
+        android:textColor="#000"
+        android:textStyle="italic"
+        android:text="You will receive an email to reset you password..."/>
+
 </RelativeLayout>
