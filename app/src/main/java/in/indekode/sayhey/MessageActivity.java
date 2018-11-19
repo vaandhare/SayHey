@@ -40,22 +40,32 @@ import in.indekode.sayhey.Notifications.Sender;
 import in.indekode.sayhey.Notifications.Token;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     TextView username;
+
     FirebaseUser fuser;
     DatabaseReference reference;
+
     ImageButton btn_send;
     EditText text_send;
+
     MessageAdapter messageAdapter;
     List<Chat> mchat;
+
     RecyclerView recyclerView;
+
     Intent intent;
+
     ValueEventListener seenListener;
+
     String userid;
+
     APIService apiService;
+
     boolean notify = false;
 
     @Override
@@ -99,6 +109,8 @@ public class MessageActivity extends AppCompatActivity {
                 String msg = text_send.getText().toString();
                 if (!msg.equals("")){
                     sendMessage(fuser.getUid(), userid, msg);
+                } else {
+                    Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
                 }
                 text_send.setText("");
             }
@@ -113,8 +125,9 @@ public class MessageActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 username.setText(user.getUsername());
                 if (user.getImageURL().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.mipmap.profilepic);
                 } else {
+                    //and this
                     Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 }
 
@@ -164,6 +177,8 @@ public class MessageActivity extends AppCompatActivity {
 
         reference.child("Chats").push().setValue(hashMap);
 
+
+        // add user to chat fragment
         final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(fuser.getUid())
                 .child(userid);
@@ -210,24 +225,27 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Token token = snapshot.getValue(Token.class);
-                    Data data = new Data(fuser.getUid(), R.mipmap.ic_launcher, username+": "+message, "New Message", userid);
+                    Data data = new Data(fuser.getUid(), R.mipmap.ic_launcher, username+": "+message, "New Message",
+                            userid);
 
                     Sender sender = new Sender(data, token.getToken());
 
-                    apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
-                        @Override
-                        public void onResponse(Call<MyResponse> call, retrofit2.Response<MyResponse> response) {
-                            if (response.code() == 200){
-                                if (response.body().success != 1){
-                                    Toast.makeText(MessageActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if (response.code() == 200){
+                                        if (response.body().success != 1){
+                                            Toast.makeText(MessageActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<MyResponse> call, Throwable t) {
 
-                        }
-                    });
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                                }
+                            });
                 }
             }
 

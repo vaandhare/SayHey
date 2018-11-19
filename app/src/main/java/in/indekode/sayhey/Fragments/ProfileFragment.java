@@ -45,8 +45,10 @@ public class ProfileFragment extends Fragment {
 
     CircleImageView image_profile;
     TextView username;
+
     DatabaseReference reference;
     FirebaseUser fuser;
+
     StorageReference storageReference;
     private static final int IMAGE_REQUEST = 1;
     private Uri imageUri;
@@ -56,7 +58,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         image_profile = view.findViewById(R.id.profile_image);
@@ -73,7 +75,7 @@ public class ProfileFragment extends Fragment {
                 User user = dataSnapshot.getValue(User.class);
                 username.setText(user.getUsername());
                 if (user.getImageURL().equals("default")){
-                    image_profile.setImageResource(R.mipmap.ic_launcher);
+                    image_profile.setImageResource(R.mipmap.profilepic);
                 } else {
                     Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
                 }
@@ -166,7 +168,7 @@ public class ProfileFragment extends Fragment {
             imageUri = data.getData();
 
             if (uploadTask != null && uploadTask.isInProgress()){
-                Toast.makeText(getContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Upload in preogress", Toast.LENGTH_SHORT).show();
             } else {
                 uploadImage();
             }

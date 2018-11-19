@@ -1,6 +1,5 @@
 package in.indekode.sayhey.Fragments;
 
-import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.indekode.sayhey.Adapter.UserAdapter;
-import in.indekode.sayhey.Model.Chat;
 import in.indekode.sayhey.Model.Chatlist;
 import in.indekode.sayhey.Model.User;
 import in.indekode.sayhey.Notifications.Token;
@@ -74,8 +72,6 @@ public class ChatsFragment extends Fragment {
         });
 
         updateToken(FirebaseInstanceId.getInstance().getToken());
-
-
         return view;
     }
 
@@ -110,5 +106,4 @@ public class ChatsFragment extends Fragment {
             }
         });
     }
-
 }

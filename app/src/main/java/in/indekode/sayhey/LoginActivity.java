@@ -66,46 +66,22 @@ public class LoginActivity extends AppCompatActivity {
                     auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.setMessage("Connecting to the Server....");
+                            progressDialog.show();
                             if ( task.isSuccessful()){
-                                validate(email, password);
+                                progressDialog.dismiss();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
                             }else{
-                                Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-                            }
+                                progressDialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();}
                         }
                     });
                 }
             }
         });
 
-    }
-
-    private  void validate(final String username, final String passwords){
-        progressDialog.setMessage("Connecting to the Server....");
-        progressDialog.show();
-        auth.signInWithEmailAndPassword(username, passwords).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    progressDialog.dismiss();
-                    checkVerification();
-                }
-                else {
-                    progressDialog.dismiss();
-                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    private void checkVerification(){
-        FirebaseUser firebaseUser = auth.getInstance().getCurrentUser();
-        Boolean emailFlag = firebaseUser.isEmailVerified();
-
-        if (emailFlag){
-            startActivity(new Intent(this, MainActivity.class));
-        }else {
-            Toast.makeText(this, "Verify your Email", Toast.LENGTH_SHORT).show();
-            auth.signOut();
-        }
     }
 }

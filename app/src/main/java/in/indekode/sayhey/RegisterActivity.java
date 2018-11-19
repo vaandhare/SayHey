@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if ( password.length() < 6){
                     Toast.makeText(RegisterActivity.this, "Password must be greater than 6 characters", Toast.LENGTH_SHORT).show();
                 } else{
-                  Register(username, emailid, password);
+                    Register(username, emailid, password);
                 }
             }
         });
@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                     HashMap<String, String> hashMap = new HashMap<>();
                     hashMap.put("id", userID);
                     hashMap.put("username", username);
-
+                    hashMap.put("search", username.toLowerCase());
                     hashMap.put("imageURL", "default");
                     hashMap.put("status", "offline");
 

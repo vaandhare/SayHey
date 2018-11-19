@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "473757952442-6a569ak183dhms814hshngjort18ln0u.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "in.indekode.sayhey",
-            "certificate_hash": "f65b220a14bee2f62d4fcc99b680e3c3f57ae8de"
-          }
-        },
-        {
           "client_id": "473757952442-ajo0uogf3o5thksj13u9n0gc6qui3fn6.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "473757952442-ajo0uogf3o5thksj13u9n0gc6qui3fn6.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

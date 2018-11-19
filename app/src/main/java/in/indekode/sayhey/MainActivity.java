@@ -63,10 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 username.setText(user.getUsername());
                 if (user.getImageURL().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.mipmap.profilepic);
                 } else {
-
-                    //change this
                     Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 }
             }
@@ -79,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         final TabLayout tabLayout = findViewById(R.id.tab_layout);
         final ViewPager viewPager = findViewById(R.id.viewpager);
+
 
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
@@ -161,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
             fragments.add(fragment);
             titles.add(title);
         }
+
+        // Ctrl + O
 
         @Nullable
         @Override

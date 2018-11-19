@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/System/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_send_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/D:/System/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_sentiment_very_satisfied_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,7 +29,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="039be5" />
-                            <entry key="outputName" value="ic_send_black_24dp" />
+                            <entry key="outputName" value="smiley_send" />
                             <entry key="sourceFile" value="C:\Users\Andhare" />
                           </map>
                         </option>
